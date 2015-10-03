@@ -15,7 +15,7 @@ var LandingPageRecent = require('./landingPageRecent');
 var LandingPage = React.createClass({
   getInitialState: function() {
     return {
-      mapData: {}
+      mapData: [{}]
     }
   },
   componentWillMount: function() {

@@ -6,7 +6,7 @@ var Chart = require('component/Chart.jsx');
 
 var LandingPageMaps = React.createClass({
   propTypes : {
-    data     : React.PropTypes.object,
+    data     : React.PropTypes.array,
     loading  : React.PropTypes.bool
   },
   getDefaultProps : function () {
