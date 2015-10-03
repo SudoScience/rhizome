@@ -23,8 +23,12 @@ def ingest_geo(apps, schema_editor):
 
     GEO_JSON_DIR = '/Users/john/data/geo'
 
-    location_code  = 'SYR'
-    x = '%s.geo.json' % location_code
+    # lebanon, turkey, iraq, jordan
+
+
+    location_codes  = ['JOR','IRQ','TUR','SYR','LBN']
+    for loc in location_codes:
+        x = '%s.geo.json' % loc
 
     # for x in range(0,3):
     process_geo_json_url(x)
