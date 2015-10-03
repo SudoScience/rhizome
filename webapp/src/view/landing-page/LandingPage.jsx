@@ -13,6 +13,11 @@ var LandingPageAbout  = require('./landingPageAbout');
 var LandingPageRecent = require('./landingPageRecent');
 
 var LandingPage = React.createClass({
+  getInitialState: function() {
+    return {
+      mapData: {}
+    }
+  },
   componentWillMount: function() {
     // Promise.all([
     //   api.geo({ parent_location__in : 4 }),
@@ -20,12 +25,14 @@ var LandingPage = React.createClass({
     // .then(function(resopnse){
     //   console.log(response);
     // });
+
+    // Get map data from API and set it here
+    // this.setState({mapData: apiResponse});
   },
   render: function() {
     var divStyle = {
       minHeight: '20rem'
     };
-
     return (
       <div className="row">
         <p className="pageWelcome">
@@ -35,7 +42,7 @@ var LandingPage = React.createClass({
           <LandingPageCharts />
         </section>
         <section className="large-6 medium-6 small-12 columns" style={divStyle}>
-          <LandingPageMaps />
+          <LandingPageMaps data={this.state.mapData} />
         </section>
         <div className="about columns">
           <LandingPageRecent />
