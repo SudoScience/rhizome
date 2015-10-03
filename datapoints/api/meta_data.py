@@ -611,10 +611,14 @@ class GeoResource(BaseNonModelResource):
         # err, locations_to_return = self.get_locations_to_return_from_url(request)
         ## since this is not a model resource i will filter explicitly #
 
-        location_id = int(request.GET['location_id'])
+        parent_location_id = Location.objects.get(location_code = \
+            request.GET['location_code']).id
 
-        polygon_values_list = LocationPolygon.objects.filter(location_id=\
-            location_id).values()
+        all_location_id_list = Location.objects.filter(parent_location_id =\
+            parent_location_id)
+
+        polygon_values_list = LocationPolygon.objects.filter(location_id__in = \
+            all_location_id_list).values()
 
         features = []
 

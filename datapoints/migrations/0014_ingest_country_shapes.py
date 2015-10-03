@@ -23,17 +23,22 @@ def ingest_geo(apps, schema_editor):
 
     GEO_JSON_DIR = '/Users/john/data/geo'
 
+    mid_east = Location.objects.create(
+        name = "Middle East",
+        location_type_id = 1, ## its not but this is a hackathon!
+        location_code = 'MIDEAST',
+        office_id = 1,
+    )
+
     # lebanon, turkey, iraq, jordan
-
-
     location_codes  = ['JOR','IRQ','TUR','SYR','LBN']
     for loc in location_codes:
         x = '%s.geo.json' % loc
 
-    # for x in range(0,3):
-    process_geo_json_url(x)
+        # for x in range(0,3):
+        process_geo_json_url(x,mid_east.id)
 
-def process_geo_json_url(data_to_fetch):
+def process_geo_json_url(data_to_fetch,parent_location_id):
 
     request_url = ROOT_URL + data_to_fetch
     response = urlopen(request_url)
@@ -41,17 +46,9 @@ def process_geo_json_url(data_to_fetch):
 
     pprint(geo_json)
 
-    process_location(geo_json,0)
+    process_location(geo_json,parent_location_id)
 
-    # print '\n PROCESSING: %s'  % file_path
-    #
-    # with open(file_path) as data_file:
-    #     data = json.load(data_file)
-    #
-    # features = data['features']
-    # process_location(feature,lvl)
-
-def process_location(geo_json, lvl):
+def process_location(geo_json, parent_location_id):
     '''
     '''
 
@@ -62,7 +59,8 @@ def process_location(geo_json, lvl):
 
     location_type = LocationType.objects.get(admin_level = 0)
 
-    err, location_id = create_new_location(lvl, features, location_name,location_code)
+    err, location_id = create_new_location(features, location_name, \
+        location_code, parent_location_id)
 
     try:
         rp, created = LocationPolygon.objects.get_or_create(
@@ -79,14 +77,15 @@ def process_location(geo_json, lvl):
         defaults = {'mapped_by_id':1,'master_object_id':location_id}
     )
 
-def create_new_location(lvl, geo_json,location_name, location_code):
+def create_new_location(geo_json, location_name, location_code, \
+    parent_location_id):
 
     new_location = Location.objects.create(
         location_code = location_code,
         name = location_name,
-        location_type_id = lvl + 1,
+        location_type_id = 1,
         slug =  location_code,
-        parent_location_id = None,
+        parent_location_id = parent_location_id,
         office_id = 1,
     )
 
