@@ -3,7 +3,8 @@
 var React = require('react');
 var Vue = require('vue');
 
-var LandingPage      = require('view/LandingPage.jsx');
+var LandingPage      = require('view/landing-page/LandingPage.jsx');
+// var LandingPage      = require('view/LandingPage.jsx');
 var DashboardList = require('view/dashboard-list/DashboardList.jsx');
 var Navigation       = require('component/Navigation.jsx');
 var AdminApp         = require('./ufadmin');
