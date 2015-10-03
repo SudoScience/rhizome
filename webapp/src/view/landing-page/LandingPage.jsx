@@ -18,7 +18,7 @@ var LandingPage = React.createClass({
   },
   componentWillMount: function() {
     Promise.all([
-      api.geo({ parent_location__in : 4 }),
+      // api.geo({ parent_location__in : 4 }),
     ]).then(function(response) {
       console.log(response);
     });
