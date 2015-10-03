@@ -605,27 +605,33 @@ class GeoResource(BaseNonModelResource):
         ugly data munging to convert the results from the DB into geojson
         '''
 
+        print 'GET OBJECT LIST'
         self.err = None
-        err, locations_to_return = self.get_locations_to_return_from_url(request)
+
+        # err, locations_to_return = self.get_locations_to_return_from_url(request)
         ## since this is not a model resource i will filter explicitly #
 
-        if err:
-            self.err = err
-            return []
+        location_id = int(request.GET['location_id'])
 
-        polygon_values_list = LocationPolygon.objects.filter(location_id__in=\
-            locations_to_return).values()
+        polygon_values_list = LocationPolygon.objects.filter(location_id=\
+            location_id).values()
 
         features = []
 
         for p in polygon_values_list:
 
             geo_dict = json.loads(p['geo_json'])
+            #
+            print '========='
+            print geo_dict
+            print '========='
+
+            # geo_dict = geo_json[u'geometry']
 
             geo_obj = GeoJsonResult()
             geo_obj.location_id = p['location_id']
-            geo_obj.geometry = geo_dict['geometry']
-            geo_obj.type = geo_dict['type']
+            geo_obj.geometry = geo_dict[u'geometry']
+            geo_obj.type = geo_dict[u'type']
             geo_obj.properties = {'location_id': p['location_id']}
 
             features.append(geo_obj)
